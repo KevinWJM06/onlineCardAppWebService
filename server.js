@@ -5,31 +5,32 @@ require('dotenv').config();
 const port = 3000;
 
 // database config info
-const dbconfig = {
-    host: process.env.DB_HOST,   
+const dbConfig = {
+    host: process.env.DB_HOST,
     user: process.env.DB_USER,
     password: process.env.DB_PASSWORD,
     database: process.env.DB_NAME,
     port: process.env.DB_PORT,
-    conntectionLimit: 100,
+    waitForConnections: true,
+    connectionLimit: 100,
     queueLimit: 0,
-}
+};
 
-// initialize Express App
+// initialize express app
 const app = express();
 // helps to read JSON
 app.use(express.json());
 
-// start the server
+// start server
 app.listen(port, () => {
-    console.log('Server running on port', port);
+    console.log(`Server is running on port:`, port);
 });
 
-// example route: Get all cards
-app.get('allcards', async (req, res) => {
-    try { 
+// example route: get all cards
+app.get('/allcards', async (req, res) => {
+    try {
         let connection = await mysql.createConnection(dbConfig);
-        const [rows] = await connection.execute('SELECT * FROM defaultdb.cards');
+        const[rows] = await connection.execute('SELECT * FROM defaultdb.cards');
         res.json(rows);
     } catch (err) {
         console.error(err);
