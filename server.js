@@ -28,7 +28,7 @@ app.listen(port, () => {
 // example route: Get all cards
 app.get('allcards', async (req, res) => {
     try { 
-        let connection = await mysql.createConnection(dbconfig);
+        let connection = await mysql.createConnection(dbConfig);
         const [rows] = await connection.execute('SELECT * FROM defaultdb.cards');
         res.json(rows);
     } catch (err) {
